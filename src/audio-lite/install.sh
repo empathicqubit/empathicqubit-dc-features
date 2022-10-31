@@ -7,7 +7,7 @@ set -e
 echo "Activating feature 'audio-lite'"
 
 USERNAME=${USERNAME:-"automatic"}
-MUMBLE_PORT=64378
+MUMBLE_PORT=64738
 
 package_list="
     make \
@@ -76,6 +76,7 @@ cat << EOF > /usr/local/share/audio-lite-init.sh
 
 user_name="${USERNAME}"
 group_name="$(id -gn ${USERNAME})"
+mumble_port="${MUMBLE_PORT}"
 
 # Execute the command it not already running
 startInBackgroundIfNotRunning()
@@ -128,9 +129,6 @@ log()
 
 log "** SCRIPT START **"
 
-log "starting mumble VoIP server"
-sudoIf /etc/init.d/mumble-server start
-
 log "starting pulseaudio"
 if [ "\$user_name" != "root" ]; then
     sudoUserIf pulseaudio -D
@@ -138,10 +136,17 @@ else
     sudoUserIf pulseaudio -D --system
 fi
 
+log "starting mumble VoIP server"
+sudoIf /etc/init.d/mumble-server start
+
+while ! timeout 1 sh -c "echo > /dev/tcp/localhost/\${mumble_port}" ; do
+    sleep 1
+done
+
 log "starting mumble client mumd"
 startInBackgroundIfNotRunning "mumd" sudoUserIf "mumd"
 sleep 1
-while ! sudoUserIf mumctl connect 127.0.0.1 "\${user_name}" ; do
+while ! sudoUserIf mumctl connect --port "\${mumble_port}" 127.0.0.1 "\${user_name}" ; do
     sleep 1
 done
 

@@ -1,7 +1,7 @@
 {
     "name": "Light(ish) audio",
     "id": "audio-lite",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Stream audio from the devcontainer using mumble.",
     "init": true,
     "entrypoint": "/usr/local/share/audio-lite-init.sh",
