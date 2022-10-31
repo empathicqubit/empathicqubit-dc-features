@@ -145,10 +145,14 @@ done
 
 log "starting mumble client mumd"
 startInBackgroundIfNotRunning "mumd" sudoUserIf "mumd"
-sleep 1
+while ! sudoUserIf mumctl status | grep -v 'Unable to connect' 2>&1 >/dev/null ; do
+    sleep 1
+done
 while ! sudoUserIf mumctl connect --accept-invalid-cert --port "\${mumble_port}" 127.0.0.1 "\${user_name}" ; do
     sleep 1
 done
+
+touch /tmp/finished-audio-lite-init
 
 # Run whatever was passed in
 log "Executing \"\$@\"."
