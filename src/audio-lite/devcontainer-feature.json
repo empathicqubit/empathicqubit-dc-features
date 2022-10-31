@@ -1,0 +1,14 @@
+{
+    "name": "Light(ish) audio",
+    "id": "audio-lite",
+    "version": "1.0.0",
+    "description": "Stream audio from the devcontainer using mumble.",
+    "init": true,
+    "entrypoint": "/usr/local/share/audio-lite-init.sh",
+    "options": {
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils",
+        "ghcr.io/devcontainers/features/desktop-lite"
+    ]
+}

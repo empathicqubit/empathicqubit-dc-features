@@ -1,0 +1,11 @@
+{
+    "audio-lite": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "ghcr.io/devcontainers/features/desktop-lite:1": {
+                "version": "latest"
+            },
+            "audio-lite": {}
+        }
+    }
+}
