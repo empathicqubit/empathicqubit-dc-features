@@ -145,10 +145,7 @@ done
 
 log "starting mumble client mumd"
 startInBackgroundIfNotRunning "mumd" sudoUserIf "mumd"
-while ! sudoUserIf mumctl status | grep -v 'Unable to connect' 2>&1 >/dev/null ; do
-    sleep 1
-done
-while ! sudoUserIf mumctl connect --accept-invalid-cert --port "\${mumble_port}" 127.0.0.1 "\${user_name}" ; do
+while sudoUserIf mumctl connect --accept-invalid-cert --port "\${mumble_port}" 127.0.0.1 "\${user_name}" | grep '^error:' ; do
     sleep 1
 done
 
