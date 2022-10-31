@@ -67,7 +67,9 @@ check_packages ${package_list}
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
-cargo install mum-cli
+cargo install --bins --root /usr/share/cargo mum-cli
+ln -s /usr/share/cargo/bin/mumctl /usr/local/bin/mumctl
+ln -s /usr/share/cargo/bin/mumd /usr/local/bin/mumd
 
 mkdir -p ~${USERNAME}/.config
 cat << EOF >> ~${USERNAME}/.config/mumdrc
@@ -154,7 +156,10 @@ else
 fi
 
 log "starting mumble client mumd"
-startInBackgroundIfNotRunning "mumd" sudoUserIf "~\${user_name}/.cargo/bin/mumd ; sleep 1 ; sudoUserIf ~\${user_name}/.cargo/bin/mum-cli connect localhost"
+startInBackgroundIfNotRunning "mumd" sudoUserIf "mumd"
+while ! sudoUserIf mumctl connect localhost ; do
+    sleep 1
+done
 
 # Run whatever was passed in
 log "Executing \"\$@\"."

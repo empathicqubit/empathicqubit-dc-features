@@ -1,6 +1,10 @@
 {
     "audio-lite": {
         "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "overrideFeatureInstallOrder": [
+            "ghcr.io/devcontainers/features/desktop-lite",
+            "./audio-lite"
+        ],
         "features": {
             "ghcr.io/devcontainers/features/desktop-lite:1": {
                 "version": "latest"

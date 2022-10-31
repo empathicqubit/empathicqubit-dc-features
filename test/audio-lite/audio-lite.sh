@@ -4,8 +4,10 @@ set -e
 
 source dev-container-features-test-lib
 
-check "Mumble is running" service mumble-server status
-check "Pulseaudio is running" pulseaudio --check
+sleep 5
+
+check "Mumble is running" kill -0 $(pidof murmurd)
+check "Pulseaudio is running" kill -0 $(pidof pulseaudio)
 check "mumd is running" kill -0 $(pidof mumd)
 
 reportResults
