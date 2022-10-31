@@ -71,21 +71,6 @@ cargo install --bins --root /usr/share/cargo mum-cli
 ln -s /usr/share/cargo/bin/mumctl /usr/local/bin/mumctl
 ln -s /usr/share/cargo/bin/mumd /usr/local/bin/mumd
 
-mkdir -p ~${USERNAME}/.config
-cat << EOF >> ~${USERNAME}/.config/mumdrc
-allow_invalid_server_cert=true
-
-[audio]
-disable_noise_gate = true
-
-[[servers]]
-name = "localhost"
-host = "127.0.0.1"
-port = ${MUMBLE_PORT}
-username = "${USERNAME}"
-accept_invalid_cert = true
-EOF
-
 chown -R ${USERNAME}:${USERNAME} ~${USERNAME}/.config
 
 cat << EOF > /usr/local/share/audio-lite-init.sh
@@ -157,7 +142,8 @@ fi
 
 log "starting mumble client mumd"
 startInBackgroundIfNotRunning "mumd" sudoUserIf "mumd"
-while ! sudoUserIf mumctl connect localhost ; do
+sleep 1
+while ! sudoUserIf mumctl connect 127.0.0.1 "\${user_name}" ; do
     sleep 1
 done
 
