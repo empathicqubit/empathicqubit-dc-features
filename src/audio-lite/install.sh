@@ -18,7 +18,7 @@ package_list="
     libnotify4 \
     libssl-dev \
     openssl \
-    ^libssl...\$ \
+    ^libssl[0-9\.]*\$ \
     pulseaudio \
     cargo \
     mumble-server"
