@@ -13,13 +13,13 @@ which will start up after the UI to forward audio out of the container.
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "overrideFeatureInstallOrder": [
         "ghcr.io/devcontainers/features/desktop-lite",
-        "./audio-lite"
+        "ghcr.io/empathicqubit/empathicqubit-dc-features/audio-lite"
     ],
     "features": {
         "ghcr.io/devcontainers/features/desktop-lite:1": {
             "version": "latest"
         },
-        "audio-lite": {}
+        "ghcr.io/empathicqubit/empathicqubit-dc-features/audio-lite:1": {}
     }
 }
 ```
