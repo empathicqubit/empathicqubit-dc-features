@@ -71,8 +71,6 @@ cargo install --bins --root /usr/share/cargo mum-cli
 ln -s /usr/share/cargo/bin/mumctl /usr/local/bin/mumctl
 ln -s /usr/share/cargo/bin/mumd /usr/local/bin/mumd
 
-chown -R ${USERNAME}:${USERNAME} ~${USERNAME}/.config
-
 cat << EOF > /usr/local/share/audio-lite-init.sh
 #!/bin/bash
 
