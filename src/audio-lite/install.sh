@@ -105,7 +105,7 @@ keepRunningInBackground()
 sudoIf()
 {
     if [ "\$(id -u)" -ne 0 ]; then
-        sudo "\$@"
+        sudo -H "\$@"
     else
         "\$@"
     fi
@@ -115,7 +115,7 @@ sudoIf()
 sudoUserIf()
 {
     if [ "\$(id -u)" -eq 0 ] && [ "\${user_name}" != "root" ]; then
-        sudo -u \${user_name} "\$@"
+        sudo -H -u \${user_name} "\$@"
     else
         "\$@"
     fi
