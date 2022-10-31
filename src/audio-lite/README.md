@@ -1,21 +1,15 @@
 
-# Audio Lite
+# Light(ish) audio (audio-lite)
 
-A feature to provide audio to the container. This should be installed after a
-desktop provider such as [desktop-lite](https://github.com/devcontainers/features/tree/main/src/desktop-lite)
+Stream audio from the devcontainer using mumble.
 
 ## Example Usage
 
 ```json
-"overrideFeatureInstallOrder": [
-    "ghcr.io/devcontainers/features/desktop-lite",
-    "ghcr.io/empathicqubit/empathicqubit-dc-features/audio-lite"
-],
 "features": {
-    "ghcr.io/devcontainers/features/desktop-lite:1": {
+    "ghcr.io/empathicqubit/empathicqubit-dc-features/audio-lite:1": {
         "version": "latest"
-    },
-    "ghcr.io/empathicqubit/empathicqubit-dc-features/audio-lite:1": {}
+    }
 }
 ```
 
@@ -23,4 +17,10 @@ desktop provider such as [desktop-lite](https://github.com/devcontainers/feature
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| There are no options. |
+
+
+
+
+---
+
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/empathicqubit/empathicqubit-dc-features/blob/main/src/audio-lite/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
