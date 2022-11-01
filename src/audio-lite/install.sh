@@ -7,7 +7,8 @@ set -e
 echo "Activating feature 'audio-lite'"
 
 USERNAME=${USERNAME:-"automatic"}
-MUMBLE_PORT=64738
+MUMBLE_PORT=${MUMBLEPORT:-"64738"}
+MUMBLE_PASSWORD=${MUMBLEPASSWORD:-""}
 
 package_list="
     make \
@@ -71,12 +72,72 @@ cargo install --bins --root /usr/share/cargo mum-cli
 ln -s /usr/share/cargo/bin/mumctl /usr/local/bin/mumctl
 ln -s /usr/share/cargo/bin/mumd /usr/local/bin/mumd
 
+cat << EOF > /etc/mumble-server.ini
+database=/var/lib/mumble-server/mumble-server.sqlite
+#dbDriver=QMYSQL
+#dbUsername=
+#dbPassword=
+#dbHost=
+#dbPort=
+#dbPrefix=murmur_
+#dbOpts=
+#ice="tcp -h 127.0.0.1 -p 6502"
+#icesecretread=
+icesecretwrite=
+#dbus=system
+#dbusservice=net.sourceforge.mumble.murmur
+#autobanAttempts = 10
+#autobanTimeframe = 120
+#autobanTime = 300
+logfile=/var/log/mumble-server/mumble-server.log
+pidfile=/run/mumble-server/mumble-server.pid
+welcometext="Welcome to this vscode audio forwarding server!"
+
+port=${MUMBLE_PORT}
+#host=
+serverpassword=${MUMBLE_PASSWORD}
+
+bandwidth=72000
+users=100
+#opusthreshold=100
+#channelnestinglimit=10
+
+#channelname=[ \\-=\\w\\#\\[\\]\\{\\}\\(\\)\\@\\|]+
+#username=[-=\\w\\[\\]\\{\\}\\(\\)\\@\\|\\.]+
+#textmessagelength=5000
+#imagemessagelength=131072
+#allowhtml=true
+
+logdays=-1
+
+#registerName=Mumble Server
+#registerPassword=secret
+#registerUrl=https://www.mumble.info/
+#registerHostname=
+
+bonjour=False
+
+#sslCert=
+#sslKey=
+#sslCiphers=EECDH+AESGCM:AES256-SHA:AES128-SHA
+#certrequired=False
+
+uname=mumble-server
+
+#sendversion=True
+
+[Ice]
+Ice.Warn.UnknownProperties=1
+Ice.MessageSizeMax=65536
+EOF
+
 cat << EOF > /usr/local/share/audio-lite-init.sh
 #!/bin/bash
 
 user_name="${USERNAME}"
 group_name="$(id -gn ${USERNAME})"
 mumble_port="${MUMBLE_PORT}"
+mumble_password="${MUMBLE_PASSWORD}"
 
 # Execute the command it not already running
 startInBackgroundIfNotRunning()
@@ -145,7 +206,7 @@ done
 
 log "starting mumble client mumd"
 startInBackgroundIfNotRunning "mumd" sudoUserIf "mumd"
-while sudoUserIf mumctl connect --accept-invalid-cert --port "\${mumble_port}" 127.0.0.1 "\${user_name}" | grep '^error:' ; do
+while sudoUserIf mumctl connect --accept-invalid-cert --port "\${mumble_port}" 127.0.0.1 "\${user_name}" "\${mumble_password}" | grep '^error:' ; do
     sleep 1
 done
 

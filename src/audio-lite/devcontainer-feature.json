@@ -1,11 +1,22 @@
 {
     "name": "Light(ish) audio",
     "id": "audio-lite",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "Stream audio from the devcontainer using mumble.",
     "init": true,
     "entrypoint": "/usr/local/share/audio-lite-init.sh",
     "options": {
+        "mumblePort": {
+            "type": "number",
+            "proposals": [64738],
+            "default": 64738,
+            "description": "The port which Mumble should listen on"
+        },
+        "mumblePassword": {
+            "type": "string",
+            "default": "",
+            "description": "Set a password required to join the server. You only need this if you open the server port to the public."
+        }
     },
     "installsAfter": [
         "ghcr.io/devcontainers/features/common-utils",

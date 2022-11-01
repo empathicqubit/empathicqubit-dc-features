@@ -23,4 +23,5 @@ desktop provider such as [desktop-lite](https://github.com/devcontainers/feature
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| There are no options. |
+|mumblePort|The port which Mumble should listen on|number|64378|
+|mumblePassword|Set a password required to join the server. You only need this if you open the server port to the public.|string||
