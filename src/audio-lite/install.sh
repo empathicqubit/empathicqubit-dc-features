@@ -139,7 +139,7 @@ fi
 log "starting mumble VoIP server"
 sudoIf /etc/init.d/mumble-server start
 
-while ! timeout 1 sh -c "echo > /dev/tcp/localhost/\${mumble_port}" ; do
+while ! timeout 1 bash -c "echo > /dev/tcp/localhost/\${mumble_port}" ; do
     sleep 1
 done
 
